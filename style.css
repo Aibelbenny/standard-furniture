@@ -1,0 +1,496 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f5f1eb;
+    color: #29231e;
+}
+
+
+/* =========================
+   NAVBAR
+========================= */
+
+.navbar {
+    height: 80px;
+
+    background: #fffaf4;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 7%;
+
+    position: sticky;
+    top: 0;
+
+    z-index: 1000;
+
+    border-bottom: 1px solid #e5ddd3;
+}
+
+.logo {
+    font-size: 22px;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+}
+
+.logo span {
+    font-weight: 400;
+}
+
+.navbar nav {
+    display: flex;
+
+    gap: 35px;
+}
+
+.navbar nav a {
+    text-decoration: none;
+
+    color: #29231e;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    transition: 0.3s;
+}
+
+.navbar nav a:hover {
+    color: #8b6245;
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+    min-height: 650px;
+
+    display: flex;
+
+    align-items: center;
+
+    padding: 80px 8%;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(35, 27, 21, 0.85),
+            rgba(35, 27, 21, 0.25)
+        ),
+        url("products/sofas/sofa01.jpg");
+
+    background-size: cover;
+
+    background-position: center;
+}
+
+.hero-content {
+    max-width: 600px;
+
+    color: white;
+}
+
+.small-title {
+    font-size: 14px;
+
+    letter-spacing: 5px;
+
+    margin-bottom: 20px;
+}
+
+.hero h1 {
+    font-size: clamp(50px, 8vw, 100px);
+
+    line-height: 0.95;
+
+    letter-spacing: 3px;
+
+    margin-bottom: 25px;
+}
+
+.hero-text {
+    font-size: 20px;
+
+    margin-bottom: 35px;
+}
+
+.hero-button {
+    display: inline-block;
+
+    padding: 16px 30px;
+
+    background: white;
+
+    color: #29231e;
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    font-weight: bold;
+
+    letter-spacing: 1px;
+
+    transition: 0.3s;
+}
+
+.hero-button:hover {
+    background: #8b6245;
+
+    color: white;
+}
+
+
+/* =========================
+   COLLECTION
+========================= */
+
+.collection {
+    padding: 100px 7%;
+}
+
+.section-heading {
+    text-align: center;
+
+    margin-bottom: 60px;
+}
+
+.section-heading p,
+.section-label {
+    color: #8b6245;
+
+    font-size: 12px;
+
+    font-weight: bold;
+
+    letter-spacing: 4px;
+
+    margin-bottom: 15px;
+}
+
+.section-heading h2 {
+    font-size: 48px;
+
+    margin-bottom: 15px;
+}
+
+.section-heading span {
+    color: #746c65;
+}
+
+
+/* =========================
+   CATEGORY GRID
+========================= */
+
+.category-grid {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 25px;
+}
+
+.category-card {
+    background: white;
+
+    text-decoration: none;
+
+    color: #29231e;
+
+    overflow: hidden;
+
+    transition: 0.4s;
+}
+
+.category-card:hover {
+    transform: translateY(-8px);
+
+    box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.12);
+}
+
+.category-image {
+    height: 350px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background-size: cover;
+
+    background-position: center;
+
+    position: relative;
+}
+
+.category-image::after {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.25);
+}
+
+.category-image span {
+    position: relative;
+
+    z-index: 2;
+
+    color: white;
+
+    font-size: 30px;
+
+    font-weight: bold;
+
+    letter-spacing: 4px;
+}
+
+
+/* =========================
+   CATEGORY IMAGES
+========================= */
+
+.sofa-image {
+    background-image:
+        url("products/sofas/sofa01.jpg");
+}
+
+.bed-image {
+    background-image:
+        url("products/beds/bed01.jpg");
+}
+
+.chair-image {
+    background-image:
+        url("products/chairs/chair01.jpg");
+}
+
+.dining-image {
+    background-image:
+        url("products/dining/dining01.jpg");
+}
+
+.dhivan-image {
+    background-image:
+        url("products/dhivan/dhivan01.jpg");
+}
+
+
+/* =========================
+   CATEGORY INFO
+========================= */
+
+.category-info {
+    padding: 25px;
+}
+
+.category-info h3 {
+    font-size: 23px;
+
+    margin-bottom: 8px;
+}
+
+.category-info p {
+    color: #777;
+
+    font-size: 14px;
+}
+
+
+/* =========================
+   ABOUT
+========================= */
+
+.about {
+    background: #2d2722;
+
+    color: white;
+
+    padding: 110px 10%;
+}
+
+.about-content {
+    max-width: 700px;
+}
+
+.about h2 {
+    font-size: 55px;
+
+    line-height: 1.05;
+
+    margin-bottom: 30px;
+}
+
+.about p:not(.section-label) {
+    color: #d5cec7;
+
+    font-size: 18px;
+
+    line-height: 1.8;
+}
+
+
+/* =========================
+   CONTACT
+========================= */
+
+.contact {
+    text-align: center;
+
+    padding: 100px 20px;
+
+    background: #fffaf4;
+}
+
+.contact h2 {
+    font-size: 45px;
+
+    margin-bottom: 20px;
+}
+
+.contact p:not(.section-label) {
+    color: #777;
+
+    margin-bottom: 30px;
+}
+
+.contact-button {
+    display: inline-block;
+
+    background: #29231e;
+
+    color: white;
+
+    padding: 16px 30px;
+
+    text-decoration: none;
+
+    font-weight: bold;
+
+    transition: 0.3s;
+}
+
+.contact-button:hover {
+    background: #8b6245;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    background: #1e1a17;
+
+    color: white;
+
+    text-align: center;
+
+    padding: 50px 20px;
+}
+
+footer h3 {
+    letter-spacing: 3px;
+
+    margin-bottom: 12px;
+}
+
+footer p {
+    color: #aaa;
+
+    font-size: 14px;
+}
+
+.copyright {
+    margin-top: 25px;
+
+    font-size: 12px;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 800px) {
+
+    .navbar {
+        height: auto;
+
+        padding: 20px;
+
+        flex-direction: column;
+
+        gap: 18px;
+    }
+
+    .navbar nav {
+        gap: 15px;
+
+        flex-wrap: wrap;
+
+        justify-content: center;
+    }
+
+    .hero {
+        min-height: 600px;
+
+        padding: 50px 25px;
+    }
+
+    .hero h1 {
+        font-size: 55px;
+    }
+
+    .hero-text {
+        font-size: 17px;
+    }
+
+    .collection {
+        padding: 70px 20px;
+    }
+
+    .section-heading h2 {
+        font-size: 38px;
+    }
+
+    .category-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .category-image {
+        height: 300px;
+    }
+
+    .about {
+        padding: 80px 25px;
+    }
+
+    .about h2 {
+        font-size: 42px;
+    }
+
+    .contact h2 {
+        font-size: 35px;
+    }
+}

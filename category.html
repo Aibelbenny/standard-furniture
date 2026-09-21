@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Standard Furniture</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+        .category-page {
+            padding: 120px 8% 60px;
+            min-height: 100vh;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-bottom: 35px;
+            text-decoration: none;
+            color: #3d2b1f;
+            font-weight: bold;
+        }
+
+        .category-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .category-header h1 {
+            font-size: 42px;
+            margin-bottom: 12px;
+        }
+
+        .category-header p {
+            color: #777;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.10);
+            transition: 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-info h2 {
+            margin: 0 0 10px;
+            font-size: 21px;
+            color: #3d2b1f;
+        }
+
+        .product-price {
+            font-size: 18px;
+            font-weight: bold;
+            color: #8b5e3c;
+            margin-bottom: 15px;
+        }
+
+        .add-cart-btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 7px;
+            background: #3d2b1f;
+            color: white;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .add-cart-btn:hover {
+            background: #5a4030;
+        }
+
+        .no-products {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: 12px;
+        }
+
+        .no-products h2 {
+            margin-bottom: 10px;
+        }
+
+        .no-products p {
+            color: #777;
+        }
+
+
+        /* ==========================
+           CART BUTTON
+        ========================== */
+
+        .cart-button {
+            position: fixed;
+            right: 25px;
+            bottom: 25px;
+            z-index: 1000;
+
+            background: #3d2b1f;
+            color: white;
+
+            padding: 14px 20px;
+
+            border-radius: 50px;
+
+            border: none;
+
+            font-size: 16px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            box-shadow: 0 5px 20px rgba(0,0,0,0.25);
+        }
+
+
+        /* ==========================
+           CART PANEL
+        ========================== */
+
+        .cart-overlay {
+            display: none;
+
+            position: fixed;
+
+            top: 0;
+            left: 0;
+
+            width: 100%;
+            height: 100%;
+
+            background: rgba(0,0,0,0.45);
+
+            z-index: 2000;
+        }
+
+        .cart-overlay.active {
+            display: block;
+        }
+
+        .cart-panel {
+
+            position: absolute;
+
+            right: 0;
+            top: 0;
+
+            width: 420px;
+            max-width: 100%;
+
+            height: 100%;
+
+            background: #f8f5f0;
+
+            padding: 25px;
+
+            overflow-y: auto;
+
+            box-shadow: -5px 0 25px rgba(0,0,0,0.2);
+        }
+
+        .cart-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 25px;
+        }
+
+        .cart-header h2 {
+            margin: 0;
+        }
+
+        .close-cart {
+
+            border: none;
+
+            background: none;
+
+            font-size: 28px;
+
+            cursor: pointer;
+
+        }
+
+
+        /* ==========================
+           CART ITEM
+        ========================== */
+
+        .cart-item {
+
+            background: white;
+
+            padding: 15px;
+
+            border-radius: 10px;
+
+            margin-bottom: 15px;
+        }
+
+        .cart-item h3 {
+
+            margin: 0 0 7px;
+
+            font-size: 18px;
+
+        }
+
+        .cart-item-price {
+
+            color: #8b5e3c;
+
+            font-weight: bold;
+
+            margin-bottom: 12px;
+
+        }
+
+        .quantity-controls {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+        }
+
+        .quantity-controls button {
+
+            width: 30px;
+
+            height: 30px;
+
+            border: none;
+
+            border-radius: 5px;
+
+            background: #3d2b1f;
+
+            color: white;
+
+            cursor: pointer;
+
+            font-size: 18px;
+
+        }
+
+        .remove-btn {
+
+            margin-top: 10px;
+
+            border: none;
+
+            background: #eee;
+
+            padding: 7px 12px;
+
+            border-radius: 5px;
+
+            cursor: pointer;
+
+        }
+
+
+        /* ==========================
+           CART TOTAL
+        ========================== */
+
+        .cart-total {
+
+            border-top: 1px solid #ddd;
+
+            margin-top: 20px;
+
+            padding-top: 20px;
+
+            font-size: 21px;
+
+            font-weight: bold;
+
+        }
+
+
+        /* ==========================
+           WHATSAPP BUTTON
+        ========================== */
+
+        .whatsapp-btn {
+
+            width: 100%;
+
+            padding: 14px;
+
+            margin-top: 20px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background: #25D366;
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+        }
+
+
+        /* ==========================
+           MOBILE
+        ========================== */
+
+        @media (max-width: 900px) {
+
+            .product-grid {
+
+                grid-template-columns: repeat(2, 1fr);
+
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .category-page {
+
+                padding: 100px 5% 40px;
+
+            }
+
+            .category-header h1 {
+
+                font-size: 32px;
+
+            }
+
+            .product-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+            .product-card img {
+
+                height: 280px;
+
+            }
+
+            .cart-button {
+
+                right: 15px;
+
+                bottom: 15px;
+
+            }
+
+            .cart-panel {
+
+                width: 100%;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <section class="category-page">
+
+
+        <a href="index.html" class="back-button">
+            ← Back to Home
+        </a>
+
+
+        <div class="category-header">
+
+            <h1 id="categoryTitle">
+                Collection
+            </h1>
+
+            <p id="categoryDescription">
+            </p>
+
+        </div>
+
+
+        <div id="productGrid" class="product-grid"></div>
+
+
+    </section>
+
+
+
+    <!-- ==========================
+         CART BUTTON
+    =========================== -->
+
+    <button
+        class="cart-button"
+        onclick="openCart()">
+
+        🛒 Cart (<span id="cartCount">0</span>)
+
+    </button>
+
+
+
+    <!-- ==========================
+         CART
+    =========================== -->
+
+    <div
+        id="cartOverlay"
+        class="cart-overlay"
+        onclick="closeCartOutside(event)">
+
+
+        <div
+            class="cart-panel"
+            onclick="event.stopPropagation()">
+
+
+            <div class="cart-header">
+
+                <h2>
+                    Your Cart
+                </h2>
+
+                <button
+                    class="close-cart"
+                    onclick="closeCart()">
+
+                    ×
+
+                </button>
+
+            </div>
+
+
+            <div id="cartItems"></div>
+
+
+            <div
+                id="cartTotal"
+                class="cart-total">
+
+                Total: ₹0
+
+            </div>
+
+
+            <button
+                class="whatsapp-btn"
+                onclick="sendWhatsApp()">
+
+                📲 Send Enquiry on WhatsApp
+
+            </button>
+
+
+        </div>
+
+    </div>
+
+
+
+    <script>
+
+
+        /* ==========================================
+           PRODUCTS
+        ========================================== */
+
+
+        const products = {
+
+
+            sofas: [
+
+                {
+                    image: "products/sofas/sofa01.jpeg",
+                    name: "Your First Sofa",
+                    price: 48000
+                },
+
+                {
+                    image: "products/sofas/sofa02.jpeg",
+                    name: "Your Second Sofa",
+                    price: 55000
+                }
+
+            ],
+
+
+            beds: [
+
+                {
+                    image: "products/beds/bed01.jpeg",
+                    name: "Your First Bed",
+                    price: 65000
+                }
+
+            ],
+
+
+            chairs: [],
+
+
+            dining: [],
+
+
+            dhivan: []
+
+        };
+
+
+
+        /* ==========================================
+           CATEGORY INFORMATION
+        ========================================== */
+
+
+        const categoryInfo = {
+
+            sofas: {
+                title: "Sofas",
+                description: "Explore our sofa collection."
+            },
+
+            beds: {
+                title: "Beds",
+                description: "Explore our bed collection."
+            },
+
+            chairs: {
+                title: "Chairs",
+                description: "Explore our chair collection."
+            },
+
+            dining: {
+                title: "Dining",
+                description: "Explore our dining collection."
+            },
+
+            dhivan: {
+                title: "Dhivan",
+                description: "Explore our dhivan collection."
+            }
+
+        };
+
+
+
+        /* ==========================================
+           GET CATEGORY
+        ========================================== */
+
+
+        const urlParams =
+            new URLSearchParams(
+                window.location.search
+            );
+
+        const category =
+            urlParams.get("category");
+
+
+
+        const categoryTitle =
+            document.getElementById(
+                "categoryTitle"
+            );
+
+        const categoryDescription =
+            document.getElementById(
+                "categoryDescription"
+            );
+
+        const productGrid =
+            document.getElementById(
+                "productGrid"
+            );
+
+
+
+        /* ==========================================
+           CART
+        ========================================== */
+
+
+        let cart =
+            JSON.parse(
+                localStorage.getItem(
+                    "standardFurnitureCart"
+                )
+            ) || [];
+
+
+
+        /* ==========================================
+           DISPLAY PRODUCTS
+        ========================================== */
+
+
+        if (
+            category &&
+            categoryInfo[category]
+        ) {
+
+
+            categoryTitle.textContent =
+                categoryInfo[category].title;
+
+
+            categoryDescription.textContent =
+                categoryInfo[category].description;
+
+
+
+            if (
+                products[category].length === 0
+            ) {
+
+
+                productGrid.innerHTML = `
+
+                    <div class="no-products">
+
+                        <h2>
+                            Products Coming Soon
+                        </h2>
+
+                        <p>
+                            Products will be added
+                            to this collection soon.
+                        </p>
+
+                    </div>
+
+                `;
+
+
+            } else {
+
+
+                products[category].forEach(
+                    function(product, index) {
+
+
+                        const card =
+                            document.createElement(
+                                "div"
+                            );
+
+
+                        card.className =
+                            "product-card";
+
+
+                        card.innerHTML = `
+
+                            <img
+                                src="${product.image}"
+                                alt="${product.name}"
+                            >
+
+                            <div class="product-info">
+
+                                <h2>
+                                    ${product.name}
+                                </h2>
+
+                                <div class="product-price">
+                                    ₹${product.price.toLocaleString("en-IN")}
+                                </div>
+
+                                <button
+                                    class="add-cart-btn"
+                                    onclick="addToCart(
+                                        '${category}',
+                                        ${index}
+                                    )">
+
+                                    🛒 Add to Cart
+
+                                </button>
+
+                            </div>
+
+                        `;
+
+
+                        productGrid.appendChild(
+                            card
+                        );
+
+                    }
+                );
+
+            }
+
+
+        } else {
+
+
+            categoryTitle.textContent =
+                "Collection Not Found";
+
+
+            categoryDescription.textContent =
+                "Please return to the home page.";
+
+        }
+
+
+
+        /* ==========================================
+           ADD TO CART
+        ========================================== */
+
+
+        function addToCart(categoryName, productIndex) {
+
+
+            const product =
+                products[categoryName][productIndex];
+
+
+            const existing =
+                cart.find(
+                    item =>
+                        item.name === product.name
+                );
+
+
+            if (existing) {
+
+                existing.quantity++;
+
+            } else {
+
+                cart.push({
+
+                    name: product.name,
+
+                    price: product.price,
+
+                    quantity: 1
+
+                });
+
+            }
+
+
+            saveCart();
+
+
+            alert(
+                product.name +
+                " added to cart!"
+            );
+
+        }
+
+
+
+        /* ==========================================
+           SAVE CART
+        ========================================== */
+
+
+        function saveCart() {
+
+
+            localStorage.setItem(
+
+                "standardFurnitureCart",
+
+                JSON.stringify(cart)
+
+            );
+
+
+            updateCartCount();
+
+        }
+
+
+
+        /* ==========================================
+           CART COUNT
+        ========================================== */
+
+
+        function updateCartCount() {
+
+
+            const count =
+                cart.reduce(
+                    (total, item) =>
+                        total + item.quantity,
+                    0
+                );
+
+
+            document.getElementById(
+                "cartCount"
+            ).textContent = count;
+
+        }
+
+
+
+        /* ==========================================
+           OPEN CART
+        ========================================== */
+
+
+        function openCart() {
+
+
+            document.getElementById(
+                "cartOverlay"
+            ).classList.add("active");
+
+
+            displayCart();
+
+        }
+
+
+
+        /* ==========================================
+           CLOSE CART
+        ========================================== */
+
+
+        function closeCart() {
+
+
+            document.getElementById(
+                "cartOverlay"
+            ).classList.remove("active");
+
+        }
+
+
+
+        /* ==========================================
+           CLOSE WHEN CLICKING OUTSIDE
+        ========================================== */
+
+
+        function closeCartOutside(event) {
+
+
+            if (
+                event.target.id ===
+                "cartOverlay"
+            ) {
+
+                closeCart();
+
+            }
+
+        }
+
+
+
+        /* ==========================================
+           DISPLAY CART
+        ========================================== */
+
+
+        function displayCart() {
+
+
+            const cartItems =
+                document.getElementById(
+                    "cartItems"
+                );
+
+
+            const cartTotal =
+                document.getElementById(
+                    "cartTotal"
+                );
+
+
+            if (cart.length === 0) {
+
+
+                cartItems.innerHTML = `
+
+                    <div class="no-products">
+
+                        <h3>
+                            Your cart is empty
+                        </h3>
+
+                        <p>
+                            Add some furniture
+                            to your cart.
+                        </p>
+
+                    </div>
+
+                `;
+
+
+                cartTotal.textContent =
+                    "Total: ₹0";
+
+
+                return;
+
+            }
+
+
+
+            cartItems.innerHTML = "";
+
+
+            let total = 0;
+
+
+
+            cart.forEach(
+                function(item, index) {
+
+
+                    const itemTotal =
+                        item.price *
+                        item.quantity;
+
+
+                    total += itemTotal;
+
+
+
+                    const div =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    div.className =
+                        "cart-item";
+
+
+                    div.innerHTML = `
+
+                        <h3>
+                            ${item.name}
+                        </h3>
+
+                        <div class="cart-item-price">
+
+                            ₹${item.price.toLocaleString("en-IN")}
+
+                        </div>
+
+
+                        <div class="quantity-controls">
+
+                            <button
+                                onclick="decreaseQuantity(${index})">
+
+                                −
+
+                            </button>
+
+
+                            <span>
+                                ${item.quantity}
+                            </span>
+
+
+                            <button
+                                onclick="increaseQuantity(${index})">
+
+                                +
+
+                            </button>
+
+                        </div>
+
+
+                        <button
+                            class="remove-btn"
+                            onclick="removeFromCart(${index})">
+
+                            Remove
+
+                        </button>
+
+                    `;
+
+
+                    cartItems.appendChild(div);
+
+                }
+            );
+
+
+
+            cartTotal.textContent =
+                "Total: ₹" +
+                total.toLocaleString("en-IN");
+
+        }
+
+
+
+        /* ==========================================
+           INCREASE QUANTITY
+        ========================================== */
+
+
+        function increaseQuantity(index) {
+
+
+            cart[index].quantity++;
+
+
+            saveCart();
+
+
+            displayCart();
+
+        }
+
+
+
+        /* ==========================================
+           DECREASE QUANTITY
+        ========================================== */
+
+
+        function decreaseQuantity(index) {
+
+
+            if (
+                cart[index].quantity > 1
+            ) {
+
+                cart[index].quantity--;
+
+            } else {
+
+                cart.splice(index, 1);
+
+            }
+
+
+            saveCart();
+
+
+            displayCart();
+
+        }
+
+
+
+        /* ==========================================
+           REMOVE PRODUCT
+        ========================================== */
+
+
+        function removeFromCart(index) {
+
+
+            cart.splice(index, 1);
+
+
+            saveCart();
+
+
+            displayCart();
+
+        }
+
+
+
+        /* ==========================================
+           WHATSAPP
+        ========================================== */
+
+
+        function sendWhatsApp() {
+
+
+            if (cart.length === 0) {
+
+                alert(
+                    "Your cart is empty."
+                );
+
+                return;
+
+            }
+
+
+            let message =
+                "Hello Standard Furniture,%0A%0A";
+
+            message +=
+                "I am interested in:%0A%0A";
+
+
+            let total = 0;
+
+
+            cart.forEach(
+                function(item) {
+
+
+                    const itemTotal =
+                        item.price *
+                        item.quantity;
+
+
+                    total += itemTotal;
+
+
+                    message +=
+                        "• " +
+                        item.name +
+                        " x " +
+                        item.quantity +
+                        " - ₹" +
+                        itemTotal.toLocaleString("en-IN") +
+                        "%0A";
+
+                }
+            );
+
+
+            message +=
+                "%0ATotal: ₹" +
+                total.toLocaleString("en-IN");
+
+
+            /*
+            ========================================
+            CHANGE THIS NUMBER TO YOUR
+            WHATSAPP BUSINESS NUMBER
+            ========================================
+
+            Use country code.
+
+            Example India:
+            919876543210
+
+            Do NOT use + sign.
+            Do NOT use spaces.
+            */
+
+
+            const phoneNumber =
+                "919447417891";
+
+
+            const whatsappURL =
+                "https://wa.me/" +
+                phoneNumber +
+                "?text=" +
+                message;
+
+
+            window.open(
+                whatsappURL,
+                "_blank"
+            );
+
+        }
+
+
+
+        /* ==========================================
+           INITIAL CART COUNT
+        ========================================== */
+
+
+        updateCartCount();
+
+
+    </script>
+
+
+</body>
+
+</html>
